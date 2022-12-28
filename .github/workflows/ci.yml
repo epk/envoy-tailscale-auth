@@ -110,7 +110,7 @@ jobs:
         run: tar -cvf envoy-tailscale-auth-${{ github.sha }}.tar dist/
 
       - name: Upload binaries
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: binaries
           path: envoy-tailscale-auth-${{ github.sha }}.tar
