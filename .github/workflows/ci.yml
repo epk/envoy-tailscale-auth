@@ -1,0 +1,116 @@
+name: CI
+
+on:
+  push: {}
+
+env:
+  GO_VERSION: 1.19.4
+  GOLANGCI_VERSION: v1.50.1
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Setup Golang cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: golang-lint-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            golang-lint-${{ hashFiles('**/go.sum') }}
+
+      - name: Go work sync
+        run: go work sync
+
+      # We could run 'make lint' to ensure our desired Go version, but we prefer
+      # this action because it leaves 'annotations' (i.e. it comments on PRs to
+      # point out linter violations).
+      - name: Lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: ${{ env.GOLANGCI_VERSION }}
+          skip-cache: true
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Setup Golang cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: golang-test-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            golang-test-${{ hashFiles('**/go.sum') }}
+
+      - name: Go work sync
+        run: go work sync
+
+      - name: Test
+        run: make test
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Setup Golang cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: golang-build-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            golang-build-${{ hashFiles('**/go.sum') }}
+
+      - name: Go work sync
+        run: go work sync
+
+      - name: Publish Image
+        run: make image
+
+      - name: Publish Binaries
+        run: make binaries
+
+      - name: Tar binaries
+        run: tar -cvf envoy-tailscale-auth-${{ github.sha }}.tar dist/
+
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: binaries
+          path: envoy-tailscale-auth-${{ github.sha }}.tar

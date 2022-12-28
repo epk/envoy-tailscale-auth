@@ -1,0 +1,101 @@
+run:
+  timeout: 10m
+
+linters-settings:
+  errcheck:
+    check-type-assertions: false
+
+    check-blank: false
+
+  govet:
+    check-shadowing: false
+
+  gofumpt:
+    module-path: github.com/epk/envoy-tailscale-auth
+
+  gci:
+    sections: ["Standard", "Prefix(buf.build)", "Default", "Prefix(github.com/epk)"]
+
+  gocyclo:
+    min-complexity: 10
+
+  maligned:
+    suggest-new: true
+
+  dupl:
+    threshold: 100
+
+  goconst:
+    min-len: 3
+    min-occurrences: 5
+
+  lll:
+    tab-width: 1
+
+  unused:
+    check-exported: false
+
+  unparam:
+    check-exported: false
+
+  nakedret:
+    max-func-lines: 30
+
+  prealloc:
+    simple: true
+    range-loops: true
+    for-loops: false
+
+  gocritic:
+    enabled-tags:
+      - performance
+
+    settings:
+      captLocal:
+        paramsOnly: true
+      rangeValCopy:
+        sizeThreshold: 32
+
+  nolintlint:
+    require-explanation: true
+    require-specific: true
+
+linters:
+  enable:
+    - megacheck
+    - govet
+    - gocyclo
+    - gocritic
+    - goconst
+    - gci
+    - gofumpt
+    - prealloc
+    - revive
+    - unconvert
+    - misspell
+    - nakedret
+    - nolintlint
+    - gosec
+    - cyclop
+    - decorder
+    - gomnd
+    - importas
+    - predeclared
+    - stylecheck
+
+  disable:
+    # These linters are all deprecated as of golangci-lint v1.49.0. We disable
+    # them explicitly to avoid the linter logging deprecation warnings.
+    - deadcode
+    - varcheck
+    - scopelint
+    - structcheck
+    - interfacer
+    - sqlclosecheck
+    - rowserrcheck
+
+  presets:
+    - bugs
+    - unused
+
+  fast: false
