@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	buf.build/gen/go/envoyproxy/envoy/bufbuild/connect-go v1.4.1-20221219165829-f29edaef12a2.1
-	buf.build/gen/go/envoyproxy/envoy/protocolbuffers/go v1.28.1-20221219165829-f29edaef12a2.4
+	buf.build/gen/go/envoyproxy/envoy/protocolbuffers/go v1.28.1-20230113150323-b19db04c0fad.4
 	github.com/bufbuild/connect-go v1.4.1
 	github.com/bufbuild/connect-grpchealth-go v1.0.0
 	github.com/bufbuild/connect-grpcreflect-go v1.0.0
@@ -17,7 +17,7 @@ require (
 )
 
 require (
-	buf.build/gen/go/cncf/xds/protocolbuffers/go v1.28.1-20221129150241-9994d403088d.4 // indirect
+	buf.build/gen/go/cncf/xds/protocolbuffers/go v1.28.1-20230106150209-c313df85559e.4 // indirect
 	buf.build/gen/go/envoyproxy/protoc-gen-validate/protocolbuffers/go v1.28.1-20221025150516-6607b10f00ed.4 // indirect
 	filippo.io/edwards25519 v1.0.0 // indirect
 	github.com/Microsoft/go-winio v0.6.0 // indirect
