@@ -6,7 +6,7 @@ require (
 	github.com/daixiang0/gci v0.9.0
 	github.com/golangci/golangci-lint v1.50.1
 	github.com/google/ko v0.12.0
-	gotest.tools/gotestsum v1.8.2
+	gotest.tools/gotestsum v1.9.0
 	mvdan.cc/gofumpt v0.4.0
 )
 
