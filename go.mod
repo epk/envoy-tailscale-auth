@@ -5,7 +5,7 @@ go 1.19
 require (
 	buf.build/gen/go/envoyproxy/envoy/bufbuild/connect-go v1.4.1-20221219165829-f29edaef12a2.1
 	buf.build/gen/go/envoyproxy/envoy/protocolbuffers/go v1.28.1-20221219165829-f29edaef12a2.4
-	github.com/bufbuild/connect-go v1.4.1
+	github.com/bufbuild/connect-go v1.5.0
 	github.com/bufbuild/connect-grpchealth-go v1.0.0
 	github.com/bufbuild/connect-grpcreflect-go v1.0.0
 	github.com/bufbuild/connect-opentelemetry-go v0.0.0-20221216163308-175499ea7a59
